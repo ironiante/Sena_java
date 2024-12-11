@@ -12,10 +12,29 @@ public class HelloServlet extends HttpServlet {
         message = "Hello World!";
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // Obtener parámetros del formulario
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
         response.setContentType("text/html");
 
-        // Hello
+        // Generar respuesta HTML
+        PrintWriter out = response.getWriter();
+        out.println("<html><body>");
+        if ("admin".equals(username) && "1234".equals(password)) { // Simulando validación simple
+            out.println("<h1>Bienvenido, " + username + "!</h1>");
+        } else {
+            out.println("<h1>Usuario o contraseña incorrectos.</h1>");
+        }
+        out.println("</body></html>");
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/html");
+
         PrintWriter out = response.getWriter();
         out.println("<html><body>");
         out.println("<h1>" + message + "</h1>");
